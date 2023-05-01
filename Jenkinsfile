@@ -12,21 +12,11 @@ node{
             sh 'docker build . -t kpiatigorskii/devops_exam'
         }
         stage("docker_scan"){
-        sh '''
-            docker run -d --name db arminc/clair-db
-            sleep 15 # wait for db to come up
-            docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan
-            sleep 1
-            DOCKER_GATEWAY=$(docker network inspect bridge --format "{{range .IPAM.Config}}{{.Gateway}}{{end}}")
-            wget -qO clair-scanner https://github.com/arminc/clair-scanner/releases/download/v8/clair-scanner_linux_amd64 && chmod +x clair-scanner
-            ./clair-scanner --ip="$DOCKER_GATEWAY" kpiatigorskii/devops_exam || exit 0
-        '''
+            println "hi"
+            sh 'trivy image kpiatigorskii/devops_exam'
         }
         stage('Push to DockerHub'){
-            withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                sh 'echo $USERNAME'  // Access the username variable
-                sh 'echo $PASSWORD'  // Access the password variable
-                
+            withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {                
                 sh "docker login -u $USERNAME -p $PASSWORD"
                 sh "docker push kpiatigorskii/devops_exam"
             }
