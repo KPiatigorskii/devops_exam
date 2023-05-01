@@ -51,6 +51,7 @@ node{
     finally{
         stage('Notifications'){
             def currentBuildStatus = currentBuild.result
+            println "STATUS: $currentBuildStatus"
                 if (currentBuildStatus == 'SUCCESS') {
                     println "send success message" 
                     slackSend(
