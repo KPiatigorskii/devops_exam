@@ -32,12 +32,12 @@ node{
                     }
         }
         stage('Check'){
-            check_count = sh (
+            checkCount = sh (
                 script: "curl -Is -m 3 ${ec2_instanse}:8089/todo | head -n 1 | grep -c '200 OK'",
                 returnStdout: true
                 )
             echo "CHECK COUNT: $check_count"
-            if (check_count.toInteger() == 1 ){
+            if (checkCount.toInteger() == 1 ){
                 println "check was successful" 
             }
             else{
