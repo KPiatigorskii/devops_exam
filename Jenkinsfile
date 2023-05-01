@@ -36,7 +36,6 @@ node{
                 script: "curl -Is -m 3 ${ec2_instanse}:8089/todo | head -n 1 | grep -c '200 OK'",
                 returnStdout: true
                 )
-            echo "CHECK COUNT: $check_count"
             if (checkCount.toInteger() == 1 ){
                 println "check was successful" 
             }
