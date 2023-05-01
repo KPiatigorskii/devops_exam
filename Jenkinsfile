@@ -23,8 +23,13 @@ node{
         '''
         }
         stage('Push to DockerHub'){
-            sh 'docker login -u kpiatigorskii -p dckr_pat_6whSoke9x4b7XCwQjpztIE3QnOg'
-            sh 'docker push kpiatigorskii/devops_exam'
+            withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                sh 'echo $USERNAME'  // Access the username variable
+                sh 'echo $PASSWORD'  // Access the password variable
+                
+                sh "docker login -u $USERNAME -p $PASSWORD"
+                sh "docker push kpiatigorskii/devops_exam"
+            }
         }
 
         stage('Deploy to EC2'){
