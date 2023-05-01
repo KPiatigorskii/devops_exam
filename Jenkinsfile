@@ -22,7 +22,7 @@ node{
                 sh """
                 echo "${WORKSPACE}"
                 ls -l
-                ssh -o StrictHostKeyChecking=no ubuntu@${ec2_instanse} "rm -rf /home/ubuntu/devops_exam"
+                ssh -o StrictHostKeyChecking=no ubuntu@${ec2_instanse} "rm -rf /home/ubuntu/devops_exam/docker-compose.yml"
                 scp -o StrictHostKeyChecking=no ${WORKSPACE}/docker-compose.yml  ubuntu@${ec2_instanse}:/home/ubuntu/devops_exam/docker-compose.yml
 
                 ssh -o StrictHostKeyChecking=no ubuntu@${ec2_instanse} ' cd /home/ubuntu/devops_exam/ && sudo docker-compose up'
