@@ -31,7 +31,7 @@ node{
     }
     stage('Check'){
         check_count = sh (
-            script: "curl -Is ${ec2_instanse}:8088/todo | head -n 1 | grep -c '200 OK'",
+            script: "curl -Is -m 3 ${ec2_instanse}:8088/todo | head -n 1 | grep -c '200 OK'",
             returnStdout: true
             )
         echo "CHECK COUNT: $check_count"
