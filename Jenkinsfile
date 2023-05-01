@@ -1,4 +1,5 @@
 node{
+    def allStagesSuccessful = true
     try{
         stage('Checkout') {
             git \
@@ -46,13 +47,13 @@ node{
         }
     }
     catch(error){
+        println "throw error from try catch"
+        allStagesSuccessful = false
         throw error
     }
     finally{
         stage('Notifications'){
-            def currentBuildStatus = currentBuild.result
-            println "STATUS: $currentBuildStatus"
-                if (currentBuildStatus == 'SUCCESS') {
+                if (allStagesSuccessful) {
                     println "send success message" 
                     slackSend(
                         color: "#00FF00",
