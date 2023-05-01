@@ -11,8 +11,7 @@ node{
         stage('Build and Test'){
             sh 'docker build . -t kpiatigorskii/devops_exam'
         }
-        stage("docker_scan"){
-            println "hi"
+        stage("Check vulnerabilities"){
             sh 'trivy image kpiatigorskii/devops_exam'
         }
         stage('Push to DockerHub'){
@@ -36,7 +35,7 @@ node{
                     """
                     }
         }
-        stage('Check'){
+        stage('Healthcheck'){
             checkCount = sh (
                 script: "curl -Is -m 3 ${ec2_instanse}:8089/todo | head -n 1 | grep -c '200 OK'",
                 returnStdout: true
