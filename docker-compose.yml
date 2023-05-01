@@ -2,6 +2,6 @@ version: '3'
 
 services:
   exam_app:
-    build: .
+    image: kpiatigorskii/devops_exam
     ports:
       - "8089:8000"
